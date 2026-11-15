@@ -1,5 +1,16 @@
-const DEFAULT_API_BASE_URL = "https://music-api.gdstudio.xyz/api.php";
-const KUWO_HOST_PATTERN = /(^|\.)kuwo\.cn$/i;
+// 1. 把原来的单个默认地址，改成备用 API 数组（把你找的加进来，原有的留作备用）
+const FALLBACK_API_URLS = [
+  "https://music-api.gdstudio.xyz/api.php", // 原有的 GD 音乐台
+  "https://meting-ve.2333332.xyz/api",      // 你找的 Vercel 实例
+  "https://meting-dd.2333332.xyz/api"       // 你找的 Deno 实例
+];
+
+// 保留原有的变量名，方便下面的代码调用（默认取第一个）
+const DEFAULT_API_BASE_URL = FALLBACK_API_URLS[0];
+
+// 2. 扩充音频域名白名单：加入网易云、QQ音乐、酷狗
+const KUWO_HOST_PATTERN = /(^|\.)(kuwo\.cn|qq\.com|kugou\.com|126\.net|163\.com|music\.126\.net)$/i;
+
 const SAFE_RESPONSE_HEADERS = ["content-type", "cache-control", "accept-ranges", "content-length", "content-range", "etag", "last-modified", "expires"];
 
 function createCorsHeaders(init?: Headers): Headers {
